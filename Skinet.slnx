@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SkinetAPI/SkinetAPI.csproj" />
+  <Project Path="SkinetCore/SkinetCore.csproj" />
+  <Project Path="SkinetInfrastructure/SkinetInfrastructure.csproj" />
+</Solution>
