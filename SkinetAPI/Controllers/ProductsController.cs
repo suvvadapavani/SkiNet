@@ -1,25 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SkinetAPI.RequestHelpers;
 using SkinetCore.Entities;
 using SkinetCore.Interfaces;
 using SkinetCore.Specification;
-using SkinetInfrastructure.Data;
 
 namespace SkinetAPI.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController(IGenericRepository<Product> repo) : ControllerBase
+  
+    public class ProductsController(IGenericRepository<Product> repo) : BaseApiController
     {
 
         [HttpGet]
         //withoiut[ApiController] we need to specify [fromquery] string? sort for each string
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts(string? brand, string? type, string? sort)
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts([FromQuery]ProductSpecParams specParams)
         {
-            var spec = new ProductFilterSortPaginationSpecification(brand, type, sort);
-
-            var products = await repo.ListAsync(spec);
-            return Ok(products);
+            var spec = new ProductFilterSortPaginationSpecification(specParams);
+            return await CreatePagedResult(repo, spec, specParams.PageIndex, specParams.PageSize);
         }
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
