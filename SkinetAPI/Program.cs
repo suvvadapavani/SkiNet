@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SkinetAPI.Middleware;
 using SkinetCore.Entities;
 using SkinetCore.Interfaces;
 using SkinetInfrastructure.Data;
@@ -21,7 +22,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -29,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+.WithOrigins("https://localhost:4200", "http://localhost:4200"));
 
 app.UseHttpsRedirection();
 
