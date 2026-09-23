@@ -8,7 +8,16 @@
   "projects": {
     "Client": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "type":"Component"
+        },
+        "@schematics/angular:service": {
+          "type": "Service"
+        }
+
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
