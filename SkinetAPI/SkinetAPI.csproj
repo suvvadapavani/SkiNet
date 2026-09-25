@@ -22,4 +22,8 @@
     <ProjectReference Include="..\SkinetInfrastructure\SkinetInfrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\.DS_Store" />
+  </ItemGroup>
+
 </Project>
