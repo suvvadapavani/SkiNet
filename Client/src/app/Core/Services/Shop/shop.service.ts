@@ -8,7 +8,7 @@ import { ShopParams } from '../../../Shared/Models/ShopParams';
   providedIn: 'root',//when application starts up it is provided automatically and can be used anywhere in the application
 })
 export class ShopService {
-    baseUrl='https://localhost:44364/api/';
+    baseUrl='https://localhost:7097/api/';
   //injecting httpclient to make api calls
 private http=inject(HttpClient);
 types:string[]=[];

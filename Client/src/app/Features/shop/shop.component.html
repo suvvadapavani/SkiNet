@@ -100,7 +100,7 @@
     <!-- Products -->
     <div class="grid grid-cols-4 gap-4">
 
-        @for (product of products?.data; track product.id) {
+        @for (product of products.data; track product.id) {
 
             <app-product-item
                 [product]="product">
