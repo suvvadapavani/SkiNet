@@ -4,6 +4,8 @@ using SkinetCore.Entities;
 using SkinetCore.Interfaces;
 using SkinetInfrastructure.Data;
 using SkinetInfrastructure.Data.Repositories;
+using SkinetInfrastructure.Services;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors();
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+{
+    var connectionstring = builder.Configuration.GetConnectionString("Redis");
+    if (connectionstring == null) throw new Exception("cannot get redis connection string ");
+    var configuration = ConfigurationOptions.Parse(connectionstring, true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
+
+builder.Services.AddSingleton<ICartService, CartService>();
 
 
 var app = builder.Build();
