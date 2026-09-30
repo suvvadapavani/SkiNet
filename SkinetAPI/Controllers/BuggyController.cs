@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkinetAPI.Dtos;
 using SkinetAPI.Errors;
 using SkinetCore.Entities;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace SkinetAPI.Controllers
 {
@@ -36,6 +38,15 @@ namespace SkinetAPI.Controllers
         public IActionResult GetValidationError(CreateProductDto product)
         {
             return Ok();
+        }
+        [Authorize]
+        [HttpGet("secrete")]
+        public IActionResult Getsecrete()
+        {
+            var name = User.FindFirst(ClaimTypes.Name)?.Value;//email 
+            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;//user id
+
+            return Ok("hello " + name + " with Id:" + id);
         }
 
     }

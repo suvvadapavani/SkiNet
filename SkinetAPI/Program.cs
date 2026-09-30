@@ -36,6 +36,10 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
 
 builder.Services.AddSingleton<ICartService, CartService>();
 
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<AppUser>()
+    .AddEntityFrameworkStores<StoreContext>();
+
 
 var app = builder.Build();
 
@@ -47,7 +51,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()//inorder to send cookie to client while authenticating
 .WithOrigins("https://localhost:4200", "http://localhost:4200"));
 
 app.UseHttpsRedirection();
@@ -56,6 +60,8 @@ app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();
+//app.MapIdentityApi<AppUser>();
+app.MapGroup("api").MapIdentityApi<AppUser>();
 
 try
 {
