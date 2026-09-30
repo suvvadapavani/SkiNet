@@ -9,13 +9,19 @@ import { errorInterceptor } from './Core/Interceptors/error-interceptor';
 import { loadingInterceptor } from './Core/Interceptors/loading-interceptor';
 import { InitService } from './Core/Services/init.service';
 import { lastValueFrom } from 'rxjs';
+import { authInterceptor } from './Core/Interceptors/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideZoneChangeDetection(),
-    provideHttpClient(withInterceptors([errorInterceptor,loadingInterceptor])),
+    provideHttpClient(withInterceptors([
+      errorInterceptor,
+      loadingInterceptor,
+      authInterceptor
+    ])),
+
     provideAppInitializer(async () => {
       const initService = inject(InitService);
       return lastValueFrom(initService.init()).finally(() => {

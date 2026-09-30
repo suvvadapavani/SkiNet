@@ -57,6 +57,12 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()//inorder
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+// UseAuthentication() → reads the authentication cookie and identifies the logged-in user.
+
+// UseAuthorization() → checks whether that identified user is allowed to access the endpoint.
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
